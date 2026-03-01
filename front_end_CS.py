@@ -1,6 +1,7 @@
 import string
 import time
 from vitamin_model_checker.models.CGS.CGS import *
+from vitamin_model_checker.models.SCGS.SCGS import *
 from vitamin_model_checker.model_checker_interface.explicit.LTL.strategies import generate_single_strategy_random
 import streamlit as st
 import Vitamin_Converter.initialisation as initialisation
@@ -645,7 +646,7 @@ def display_MCMAS():
         st.write(f"    ")
         st.markdown('Logic Selection ')
         Logic = st.selectbox('Select your logic', [
-                             'ATL', 'CTL', 'LTL', 'SL', 'CapATL', 'OL', 'OATL', 'RBATL', 'RABATL', 'NatATL'])
+                             'ATL', 'CTL', 'PCTL', 'LTL', 'SL', 'CapATL', 'OL', 'OATL', 'RBATL', 'RABATL', 'NatATL'])
         st.write(f"    ")
         st.write(f"    ")
         formula = st.text_input('Write your formula', ' ')
@@ -736,10 +737,20 @@ def display_MS(page):
             return  # Exit early if no file is selected
 
         st.markdown('Logic Selection ')
-        Logic = st.selectbox('Select your logic', ['ATL', 'ATLF', 'CTL', 'LTL', 'SL', 'CapATL', 'OL', 'OATL', 'Memoryless NatATL', 'Recall NatATL',
+        Logic = st.selectbox('Select your logic', ['ATL', 'ATLF', 'CTL', 'PCTL', 'LTL', 'SL', 'CapATL', 'OL', 'OATL', 'Memoryless NatATL', 'Recall NatATL',
                              'Optimized Memoryless NatATL', 'Optimized Recall NatATL', 'Space-Efficient NatSL', 'Time-Efficient NatSL', 'RBATL', 'RABATL'])
         st.write(f"    ")
         st.write(f"    ")
+
+        # notes on P formula
+        if Logic == 'PCTL':
+            st.info("**PCTL Formula Syntax:**\n"
+                    "- `P>=x (F goal)` - Probability of eventually reaching goal ≥ x\n"
+                    "- `P<=x (G error)` - Probability of always avoiding error ≤ x\n"
+                    "- `P>x (F goal)` - Probability of reaching goal > x\n"
+                    "- `P<x (G error)` - Probability of always having error < x\n"
+                    "Examples: `P>=0.9 (F success)`, `P<=0.1 (G failure)`")
+
         formula = st.text_input('Write your formula', ' ')
         st.write("     ")
         # st.write('Your formula with the '+Logic+' logic is '+formula)
@@ -842,6 +853,13 @@ def display_MS(page):
                 result = CTL.model_checking(formula, filename)
                 del CTL
                 st.write(result)
+                st.write(result['initial_state'])
+            elif Logic == 'PCTL':
+                from vitamin_model_checker.model_checker_interface.explicit.PCTL import PCTL
+                result = PCTL.model_checking(formula, filename)
+                del PCTL
+                st.write(result)
+                st.write(result['initial_state'])
             elapsed_time = time.time() - start_time
             st.write("Execution time:", format_time(elapsed_time))
             start_time = None
@@ -883,7 +901,7 @@ def display_MS(page):
         filename = upload_file_handler()
 
         st.markdown('**Logic Selection**')
-        Logic = st.selectbox('Select your logic', ['ATL', 'ATLF', 'CTL', 'LTL', 'SL', 'CapATL', 'OL', 'OATL', 'Memoryless NatATL', 'Recall NatATL',
+        Logic = st.selectbox('Select your logic', ['ATL', 'ATLF', 'CTL', 'PCTL', 'LTL', 'SL', 'CapATL', 'OL', 'OATL', 'Memoryless NatATL', 'Recall NatATL',
                              'Optimized Memoryless NatATL', 'Optimized Recall NatATL', 'Space-Efficient NatSL', 'Time-Efficient NatSL', 'RBATL', 'RABATL'])
         st.write("    ")
         st.write("    ")

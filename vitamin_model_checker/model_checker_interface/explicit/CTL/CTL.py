@@ -3,12 +3,14 @@ from vitamin_model_checker.logics.CTL import verifyCTL, do_parsingCTL
 from vitamin_model_checker.models.CGS.CGS import *
 
 # -------------------------------
-# FUNZIONI DI SUPPORTO E UTILITÀ
+# FUNZIONI DI SUPPORTO E UTILITÀ # SUPPORT FUNCTIONS AND UTILITIES
 # -------------------------------
+
 
 def get_states_prop_holds(cgs, prop):
     """
     Restituisce l'insieme degli stati in cui la proposizione prop è vera.
+    Returns the set of states in which the proposition prop is true.
     """
     states = set()
     prop_matrix = cgs.get_matrix_proposition()
@@ -20,9 +22,11 @@ def get_states_prop_holds(cgs, prop):
             states.add(state)
     return states
 
+
 def convert_state_set(cgs, state_set):
     """
     Converte un insieme di nomi di stati (es. {"s1", "s2"}) nel corrispondente insieme di indici.
+    Converts a set of state names (e.g. {"s1", "s2"}) into the corresponding set of indices.
     """
     states = set()
     for elem in state_set:
@@ -30,9 +34,11 @@ def convert_state_set(cgs, state_set):
         states.add(int(position))
     return states
 
+
 def string_to_set(string):
     """
     Converte una stringa rappresentante un insieme (es. "{s1, s2}") in un oggetto set.
+    Converts a string representing a set (e.g. "{s1, s2}") into a set object.
     """
     if string == 'set()':
         return set()
@@ -40,11 +46,15 @@ def string_to_set(string):
     new_string = "{" + ", ".join(set_list) + "}"
     return eval(new_string)
 
+
 def build_tree(cgs, tpl):
     """
     Costruisce ricorsivamente l'albero della formula (di tipo binary tree).
     Se il nodo è un atomo, si sostituisce il nodo con la stringa dell'insieme degli stati
     in cui l'atomo è vero.
+    Recursively constructs the formula tree (binary tree type).
+    If the node is an atom, replace the node with the string of the set of states
+    in which the atom is true.
     """
     if isinstance(tpl, tuple):
         root = Node(tpl[0])
@@ -74,13 +84,18 @@ def build_tree(cgs, tpl):
 
 # ---------------------------------------------------------
 # FUNZIONI PER IL CALCOLO DELLE PRE-IMMAGINI (CTL)
+# FUNCTIONS FOR CALCULATING PRE-IMAGES (CTL)
 # ---------------------------------------------------------
+
 
 def pre_image_exist(transitions, list_holds_p):
     """
     Calcola la pre-immagine esistenziale:
     Restituisce l'insieme degli stati s tali che esista una transizione (s,t)
     con t appartenente a list_holds_p.
+    Computes the existential pre-image:
+    Returns the set of states s such that there exists a transition (s,t)
+    with t belonging to list_holds_p.
     """
     pre_list = set()
     for state in list(list_holds_p):
@@ -89,12 +104,17 @@ def pre_image_exist(transitions, list_holds_p):
         pre_list.update(predecessors)
     return pre_list
 
+
 def pre_image_all(transitions, states_set, holds_p):
     """
     Calcola la pre-immagine universale (AX):
     Restituisce gli stati in states_set per i quali, se lo stato ha dei successori,
     tutti i successori appartengono a holds_p.
     (Per deadlock, si assume che AX sia vera.)
+    Compute the universal preimage (AX):
+    Returns the states in states_set for which, if the state has successors,
+    all successors belong to holds_p.
+    (For deadlocks, AX is assumed to be true.)
     """
     pre_states = set()
     for state in states_set:
@@ -104,6 +124,7 @@ def pre_image_all(transitions, states_set, holds_p):
             pre_states.add(state)
     return pre_states
 
+
 def pre_release_A(cgs, holds_phi, holds_psi):
     """
     Calcola A(φ R ψ) attraverso il massimo fixpoint.
@@ -111,6 +132,12 @@ def pre_release_A(cgs, holds_phi, holds_psi):
     cioè gli stati s tali che:
       - s soddisfa ψ, e
       - se s non soddisfa φ, allora ogni successore di s appartiene al fixpoint.
+
+    Computes A(φ R ψ) through the maximum fixpoint.
+    Returns the set of states where A(φ R ψ) holds,
+    that is, the states s such that:
+    - s satisfies ψ, and
+    - if s does not satisfy φ, then every successor of s belongs to the fixpoint.
     """
     all_states = set(cgs.get_states())
     # Inizialmente, il risultato (fixpoint) è dato dagli stati che soddisfano ψ.
@@ -132,21 +159,27 @@ def pre_release_A(cgs, holds_phi, holds_psi):
 
 # ------------------------------
 # FUNZIONE DI RISOLUZIONE DELL'ALBERO
+# TREE RESOLUTION FUNCTION
 # ------------------------------
+
 
 def solve_tree(cgs, node):
     """
     Risolve ricorsivamente l'albero della formula in base all'operatore.
     La soluzione viene memorizzata in node.value, che contiene la stringa
     rappresentante l'insieme degli stati in cui la formula è vera.
+
+    Recursively solves the formula tree based on the operator.
+    The solution is stored in node.value, which contains the string
+    representing the set of states in which the formula is true.
     """
-    # Risolvi i sottoalberi (ricorsione)
+    # Risolvi i sottoalberi (ricorsione) # Resolve subtrees (recursion)
     if node.left is not None:
         solve_tree(cgs, node.left)
     if node.right is not None:
         solve_tree(cgs, node.right)
 
-    # OPERATORE UNARIO
+    # OPERATORE UNARIO # UNARY OPERATOR
     if node.right is None:
         if verifyCTL('NOT', node.value):  # ¬φ
             states = string_to_set(node.left.value)
@@ -191,7 +224,8 @@ def solve_tree(cgs, node):
             target = string_to_set(node.left.value)
             T = set(cgs.get_states())
             while True:
-                new_T = target.intersection(pre_image_exist(cgs.get_edges(), T))
+                new_T = target.intersection(
+                    pre_image_exist(cgs.get_edges(), T))
                 if new_T == T:
                     break
                 T = new_T
@@ -245,7 +279,8 @@ def solve_tree(cgs, node):
             states_psi = string_to_set(node.right.value)
             T = states_psi.copy()
             while True:
-                new_T = T.union(states_phi.intersection(pre_image_exist(cgs.get_edges(), T)))
+                new_T = T.union(states_phi.intersection(
+                    pre_image_exist(cgs.get_edges(), T)))
                 if new_T == T:
                     break
                 T = new_T
@@ -254,12 +289,15 @@ def solve_tree(cgs, node):
         elif verifyCTL('FORALL', node.value) and verifyCTL('UNTIL', node.value):  # A(φ U ψ)
             # A(φ U ψ) = ¬E(¬ψ U (¬φ ∧ ¬ψ)) (formula duale)
             # Possiamo calcolarla tramite una trasformazione:
-            not_states_phi = set(cgs.get_states()) - string_to_set(node.left.value)
-            not_states_psi = set(cgs.get_states()) - string_to_set(node.right.value)
+            not_states_phi = set(cgs.get_states()) - \
+                string_to_set(node.left.value)
+            not_states_psi = set(cgs.get_states()) - \
+                string_to_set(node.right.value)
             # Calcoliamo E(not ψ U (not φ ∧ not ψ))
             T = not_states_psi.copy()
             while True:
-                new_T = T.union((not_states_phi.intersection(not_states_psi)).intersection(pre_image_exist(cgs.get_edges(), T)))
+                new_T = T.union((not_states_phi.intersection(not_states_psi)).intersection(
+                    pre_image_exist(cgs.get_edges(), T)))
                 if new_T == T:
                     break
                 T = new_T
@@ -269,12 +307,15 @@ def solve_tree(cgs, node):
         # Per l'operatore RELEASE esistenziale (se necessario) si potrebbe definire in maniera duale,
         # ad esempio: E(φ R ψ) = ¬A(¬φ U ¬ψ)
         elif verifyCTL('EXIST', node.value) and verifyCTL('RELEASE', node.value):  # E(φ R ψ)
-            not_states_phi = set(cgs.get_states()) - string_to_set(node.left.value)
-            not_states_psi = set(cgs.get_states()) - string_to_set(node.right.value)
+            not_states_phi = set(cgs.get_states()) - \
+                string_to_set(node.left.value)
+            not_states_psi = set(cgs.get_states()) - \
+                string_to_set(node.right.value)
             # Calcoliamo A(not φ U not ψ)
             T = not_states_psi.copy()
             while True:
-                new_T = T.union(not_states_phi.intersection(not_states_psi).intersection(pre_image_all(cgs.get_edges(), cgs.get_states(), T)))
+                new_T = T.union(not_states_phi.intersection(not_states_psi).intersection(
+                    pre_image_all(cgs.get_edges(), cgs.get_states(), T)))
                 if new_T == T:
                     break
                 T = new_T
@@ -284,11 +325,13 @@ def solve_tree(cgs, node):
 # FUNZIONE DI MODEL CHECKING (CTL)
 # -------------------------------------
 
+
 def verify_initial_state(initial_state, result_str):
     """
     Verifica se lo stato iniziale è incluso nell'insieme risultante (espresso come stringa).
     """
     return str(initial_state) in result_str
+
 
 def model_checking(cgs, formula, filename):
     """
@@ -308,11 +351,14 @@ def model_checking(cgs, formula, filename):
     # Parsing della formula CTL
     res_parsing = do_parsingCTL(formula)
     if res_parsing is None:
-        result = {'res': "Errore di sintassi nella formula", 'initial_state': ''}
+
+        result = {'res': "Errore di sintassi: l'atomo non esiste",
+                  'initial_state': ''}
         return result
     root = build_tree(cgs, res_parsing)
     if root is None:
-        result = {'res': "Errore di sintassi: l'atomo non esiste", 'initial_state': ''}
+        result = {'res': "Errore di sintassi: l'atomo non esiste",
+                  'initial_state': ''}
         return result
 
     # Esecuzione del model checking
@@ -324,4 +370,3 @@ def model_checking(cgs, formula, filename):
     result = {'res': 'Risultato: ' + str(root.value),
               'initial_state': 'Stato iniziale ' + str(initial_state) + ": " + str(bool_res)}
     return result
-

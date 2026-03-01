@@ -1,0 +1,35 @@
+Transition
+0 Try:0.8 Skip:0.2 0 0 0
+0 0 Retry:0.7 Fail:0.3 0 0
+0 0 0 Investigate:0.5 Fix:0.5 0
+0 0 0 0 Retry:0.9 Fail:0.1
+0 0 0 0 0 *
+0 0 0 0 0 *
+
+Transition_Probabilities
+0:0 Try:0.8,Skip:0.2 0:0 0:0 0:0 0:0
+0:0 0:0 Retry:0.7,Fail:0.3 0:0 0:0 0:0
+0:0 0:0 0:0 Investigate:0.5,Fix:0.5 0:0 0:0
+0:0 0:0 0:0 0:0 Retry:0.9,Fail:0.1 0:0
+0:0 0:0 0:0 0:0 0:0 *:1.0
+0:0 0:0 0:0 0:0 0:0 *:1.0
+
+Name_State
+idle attempting debugging retrying success failure
+
+Initial_State
+idle
+
+Atomic_propositions
+success failure attempting retrying
+
+Labelling
+0 0 0 0
+0 1 0 0
+0 0 1 0
+0 0 0 1
+1 0 0 0
+0 1 0 0
+
+Number_of_agents
+1

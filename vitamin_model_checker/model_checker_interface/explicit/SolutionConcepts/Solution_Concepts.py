@@ -7,6 +7,10 @@ def isNotNash(model, cgs, agents, CTLformula, current_strategy, bound, agent_act
     Data una strategia collettiva corrente, itera sugli agenti e verifica se per almeno uno di essi esiste
     una deviazione unilaterale che, sostituendo la strategia individuale corrente in current_strategy, porta
     a un outcome favorevole (verificato da pruning()).
+
+    Given a current collective strategy, it iterates over the agents and checks whether for at least one of them there exists
+    a unilateral deviation that, by replacing the current individual strategy in current_strategy, leads
+    to a favorable outcome (verified by pruning()).
     """
     for agent_index, agent in enumerate(agents):
         print(f"Agente {agent_index}: {agent}")
@@ -15,7 +19,8 @@ def isNotNash(model, cgs, agents, CTLformula, current_strategy, bound, agent_act
             agent_key = f"actions_agent{agent}"
             agent_actions_for_agent = agent_actions.get(agent_key, [])
             print(f"comunque ci sono {agents} con {enumerate(agents)}")
-            print(f"Azioni disponibili per l'agente {agent}: {agent_actions_for_agent}")
+            print(
+                f"Azioni disponibili per l'agente {agent}: {agent_actions_for_agent}")
             deviations = generate_deviations_for_agent(
                 current_strategy[agent_index],
                 bound,
@@ -25,15 +30,15 @@ def isNotNash(model, cgs, agents, CTLformula, current_strategy, bound, agent_act
             for deviation in deviations:
                 original_strategy = current_strategy[agent_index]
                 current_strategy[agent_index] = deviation
-                print(f"Strategia modificata per agente {agent}: {current_strategy}")
+                print(
+                    f"Strategia modificata per agente {agent}: {current_strategy}")
                 if pruning(cgs, model, agents, CTLformula, current_strategy):
-                    print(f"Deviazione trovata per l'agente {agent}: {deviation}")
+                    print(
+                        f"Deviazione trovata per l'agente {agent}: {deviation}")
                     return True
                 current_strategy[agent_index] = original_strategy
     return False
 
 
-def existsNash(cgs, agents, CTLformula, current_strategy, i, agent_actions, atomic_propositions):
-    return not isNotNash(cgs, agents, CTLformula, current_strategy, i, agent_actions, atomic_propositions)
-
-
+def existsNash(model, cgs, agents, CTLformula, current_strategy, bound, agent_actions, atomic_propositions):
+    return not isNotNash(model, cgs, agents, CTLformula, current_strategy, bound, agent_actions, atomic_propositions)
