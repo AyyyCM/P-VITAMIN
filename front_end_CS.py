@@ -850,7 +850,10 @@ def display_MS(page):
                 st.write(result)
             elif Logic == 'CTL':
                 from vitamin_model_checker.model_checker_interface.explicit.CTL import CTL
-                result = CTL.model_checking(formula, filename)
+                from vitamin_model_checker.models.CGS.CGS import CGS
+                # honestly ive messed something up here as the others dont need this, just thought id tie PCTL and SCGS together and pop.
+                cgs = CGS()
+                result = CTL.model_checking(cgs, formula, filename)
                 del CTL
                 st.write(result)
                 st.write(result['initial_state'])
