@@ -856,7 +856,7 @@ def display_MS(page):
                 result = CTL.model_checking(cgs, formula, filename)
                 del CTL
                 st.write(result)
-                st.write(result['initial_state']) # remove...
+                st.write(result['initial_state'])  # remove...
             elif Logic == 'PCTL':
                 from vitamin_model_checker.model_checker_interface.explicit.PCTL import PCTL
                 result = PCTL.model_checking(formula, filename)
@@ -866,8 +866,10 @@ def display_MS(page):
                     if result.get('error'):
                         st.error(result['error'])
                     if result.get('most_probable_state') is not None:
-                        st.write("Most probabilistic state:", result.get('most_probable_state'))
-                        st.write("Probability:", result.get('most_probable_state_probability'))
+                        st.write("Most probabilistic state:",
+                                 result.get('most_probable_state'))
+                        st.write("Probability:", result.get(
+                            'most_probable_state_probability'))
             elapsed_time = time.time() - start_time
             st.write("Execution time:", format_time(elapsed_time))
             start_time = None

@@ -117,7 +117,8 @@ def p_expression_probability(p):
 def p_error(p):
     if p is None:
         raise SyntaxError("Unexpected end of input while parsing PCTL formula")
-    raise SyntaxError(f"Syntax error at token {p.type!r} with value {p.value!r}")
+    raise SyntaxError(
+        f"Syntax error at token {p.type!r} with value {p.value!r}")
 
 
 # lexer and parser
