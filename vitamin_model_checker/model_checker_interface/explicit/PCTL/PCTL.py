@@ -139,7 +139,7 @@ def pre_release_A(cgs, holds_phi, holds_psi):
     - s satisfies ψ, and
     - if s does not satisfy φ, then every successor of s belongs to the fixpoint.
     """
-    all_states = set(cgs.get_states())
+    all_states = set(range(cgs.get_number_of_states()))
     # Inizialmente, il risultato (fixpoint) è dato dagli stati che soddisfano ψ.
     result = holds_psi.copy()
     transitions = cgs.get_edges()
@@ -196,7 +196,8 @@ def model_checking(formula, filename):
         result = {
             'satisfiable': False,
             'states': set(),
-            'initial_state_result': False
+            'initial_state_result': False,
+            'initial_state': None
         }
         return result
 
@@ -206,13 +207,48 @@ def model_checking(formula, filename):
 
     # Parse formula
     parsed_formula = do_parsingPCTL(formula)
+    if parsed_formula is None:
+        return {
+            'satisfiable': False,
+            'states': set(),
+            'initial_state_result': False,
+            'initial_state': scgs.get_initial_state(),
+            'error': 'Invalid PCTL formula',
+            'probability_threshold': None,
+            'probability_comparison': None,
+            'state_probabilities': None
+        }
 
     # Check if formula contains probability operator
-    if is_probability_formula(parsed_formula):
-        result_states = check_probability_formula(scgs, parsed_formula)
-    else:
-        # Fall back to CTL checking
-        result_states = check_ctl_formula(scgs, parsed_formula)
+    probability_threshold = None
+    probability_comparison = None
+    probability_map = None
+    most_probable_state = None
+    most_probable_state_probability = None
+
+    try:
+        validate_formula_atomic_props(scgs, parsed_formula)
+
+        if is_probability_formula(parsed_formula):
+            prob_details = evaluate_probability_formula(scgs, parsed_formula)
+            result_states = prob_details['states']
+            probability_map = prob_details['probabilities']
+            probability_threshold = prob_details['threshold']
+            probability_comparison = prob_details['comparison']
+        else:
+            # Fall back to CTL checking
+            result_states = check_ctl_formula(scgs, parsed_formula)
+    except ValueError as exc:
+        return {
+            'satisfiable': False,
+            'states': set(),
+            'initial_state_result': False,
+            'initial_state': scgs.get_initial_state(),
+            'error': str(exc),
+            'probability_threshold': None,
+            'probability_comparison': None,
+            'state_probabilities': None
+        }
 
     # Check initial state
     initial_state = scgs.get_initial_state()
@@ -223,10 +259,30 @@ def model_checking(formula, filename):
 
     is_satisfied = initial_state_idx in result_states if result_states else False
 
+    probability_map_named = None
+    if probability_map is not None:
+        probability_map_named = {
+            str(scgs.get_state_name_by_index(state_idx)): float(prob)
+            for state_idx, prob in probability_map.items()
+        }
+        if probability_map:
+            best_state_idx, best_prob = max(
+                probability_map.items(), key=lambda item: item[1]
+            )
+            most_probable_state = str(
+                scgs.get_state_name_by_index(best_state_idx))
+            most_probable_state_probability = float(best_prob)
+
     return {
         'satisfiable': is_satisfied,
         'states': result_states,
-        'initial_state_result': is_satisfied
+        'initial_state_result': is_satisfied,
+        'initial_state': initial_state,
+        'probability_threshold': probability_threshold,
+        'probability_comparison': probability_comparison,
+        'state_probabilities': probability_map_named,
+        'most_probable_state': most_probable_state,
+        'most_probable_state_probability': most_probable_state_probability
     }
 
 
@@ -280,16 +336,61 @@ def compute_reachability_prob(scgs, source_state, target_states):
 
             # Sum over all transitions from this state
             total_prob = 0.0
+            total_weight = 0.0
             transitions = scgs.get_outgoing_transitions(state)
 
             for next_state, action, transition_prob in transitions:
                 total_prob += transition_prob * prob[next_state]
+                total_weight += transition_prob
 
-            new_prob[state] = total_prob
+            if total_weight > 0:
+                new_prob[state] = total_prob / total_weight
+            else:
+                new_prob[state] = 0.0
 
         prob = new_prob
 
     return prob[source_state]
+
+
+def compute_reachability_probabilities(scgs, target_states):
+    """
+    Compute reachability probabilities for all states to eventually reach target_states.
+    Returns a dict: state_index -> probability.
+    """
+    validate_transition_probability_spec(scgs)
+    n = len(scgs.get_states())
+
+    # Initialize probabilities
+    prob = {state: 0.0 for state in range(n)}
+
+    # Target states have probability 1.0
+    for target in target_states:
+        prob[target] = 1.0
+
+    # Value iteration
+    for _ in range(100):
+        new_prob = prob.copy()
+        for state in range(n):
+            if state in target_states:
+                continue
+
+            total_prob = 0.0
+            total_weight = 0.0
+            transitions = scgs.get_outgoing_transitions(state)
+
+            for next_state, action, transition_prob in transitions:
+                total_prob += transition_prob * prob[next_state]
+                total_weight += transition_prob
+
+            if total_weight > 0:
+                new_prob[state] = total_prob / total_weight
+            else:
+                new_prob[state] = 0.0
+
+        prob = new_prob
+
+    return prob
 
 
 def is_probability_formula(formula):
@@ -298,6 +399,79 @@ def is_probability_formula(formula):
         if formula and formula[0]:
             return str(formula[0]).startswith('P')
     return False
+
+
+def collect_atomic_props(formula):
+    """
+    Collect atomic propositions from a parsed formula tree.
+    Operators are stored in tuple position 0, while subformulas are in positions 1..n.
+    """
+    atoms = set()
+
+    if isinstance(formula, str):
+        atoms.add(formula)
+        return atoms
+
+    if isinstance(formula, tuple):
+        for child in formula[1:]:
+            atoms.update(collect_atomic_props(child))
+
+    return atoms
+
+
+def validate_formula_atomic_props(scgs, formula):
+    """
+    Raise ValueError if the formula references atomic propositions
+    not declared in the model.
+    """
+    atoms = collect_atomic_props(formula)
+    unknown_atoms = []
+
+    for atom in sorted(atoms):
+        if scgs.get_atom_index(atom) is None:
+            unknown_atoms.append(atom)
+
+    if unknown_atoms:
+        raise ValueError(
+            "Invalid atomic proposition(s): " + ", ".join(unknown_atoms)
+        )
+
+
+def validate_transition_probability_spec(scgs):
+    """
+    Validation rule for probabilistic semantics:
+    if a state has more than one outgoing transition, each outgoing transition
+    must have an explicit probability in the model.
+    """
+    graph = scgs.get_graph()
+    state_names = list(scgs.get_states())
+    prob_map = getattr(scgs, 'transition_probabilities', {})
+
+    for state_idx, row in enumerate(graph):
+        outgoing = []
+        for next_state_idx, action in enumerate(row):
+            if action != 0 and action != '*':
+                outgoing.append((next_state_idx, action))
+
+        if len(outgoing) <= 1:
+            continue
+
+        missing = []
+        for next_state_idx, action in outgoing:
+            if (state_idx, action, next_state_idx) not in prob_map:
+                missing.append((next_state_idx, action))
+
+        if missing:
+            state_name = state_names[state_idx]
+            missing_text = ', '.join(
+                f"{action}->{state_names[next_state_idx]}"
+                for next_state_idx, action in missing
+            )
+            raise ValueError(
+                "Validation error: missing explicit transition probabilities "
+                f"for branching state {state_name}. "
+                f"Add Transition_Probabilities entries for: {missing_text}"
+            )
 
 
 def check_ctl_formula(scgs, formula):
@@ -326,7 +500,7 @@ def check_ctl_formula(scgs, formula):
 
         elif operator == '¬' or operator == 'NOT':  # NOT
             subformula_states = check_ctl_formula(scgs, formula[1])
-            all_states = set(scgs.get_states())
+            all_states = set(range(scgs.get_number_of_states()))
             if subformula_states is None:
                 return all_states
             return all_states - subformula_states
@@ -369,7 +543,7 @@ def check_ctl_formula(scgs, formula):
 def compute_eventually(scgs, goal_states):
     """Compute states that can eventually reach goal_states (E F goal)"""
     # Use backward reachability: states from which goal_states is reachable
-    states = set(scgs.get_states())
+    states = set(range(scgs.get_number_of_states()))
     can_reach = set(goal_states)
     prev_size = -1
 
@@ -391,7 +565,7 @@ def compute_eventually(scgs, goal_states):
 def compute_globally(scgs, goal_states):
     """Compute states where goal_states always holds (E G goal)"""
     # States from which all reachable states satisfy the property
-    states = set(scgs.get_states())
+    states = set(range(scgs.get_number_of_states()))
     must_hold = set(goal_states)
 
     # Iteratively remove states that can reach non-goal states
@@ -414,7 +588,7 @@ def compute_globally(scgs, goal_states):
 def compute_next(scgs, goal_states):
     """Compute states with a successor in goal_states (E X goal)"""
     states_with_next = set()
-    all_states = set(scgs.get_states())
+    all_states = set(range(scgs.get_number_of_states()))
 
     for state in all_states:
         transitions = scgs.get_outgoing_transitions(state)
@@ -429,7 +603,7 @@ def compute_next(scgs, goal_states):
 def compute_until(scgs, left_states, right_states):
     """Compute E(left U right): states where left holds until right holds"""
     # Reach right_states with left holding on the path
-    all_states = set(scgs.get_states())
+    all_states = set(range(scgs.get_number_of_states()))
     can_reach = set(right_states)
     prev_size = -1
 
@@ -449,7 +623,7 @@ def compute_until(scgs, left_states, right_states):
 def compute_release(scgs, left_states, right_states):
     """Compute E(left R right): states where right holds until both left and right hold"""
     # right must hold, can stay in right until left becomes true
-    all_states = set(scgs.get_states())
+    all_states = set(range(scgs.get_number_of_states()))
     can_sustain = set(right_states)
     prev_size = -1
 
@@ -470,14 +644,45 @@ def compute_release(scgs, left_states, right_states):
 
 def check_probability_formula(scgs, formula):
     """Parse and check P>=x, P<=x, P>x, P<x formulas"""
-    operator, comparison, threshold, subformula = parse_probability_formula(
-        formula)
+    prob_details = evaluate_probability_formula(scgs, formula)
+    return prob_details['states']
+
+
+def evaluate_probability_formula(scgs, formula):
+    """
+    Evaluate a probability formula and return detailed information:
+    - states satisfying threshold comparison
+    - reachability probability for each state
+    - threshold and comparison operator
+    """
+    _, comparison, threshold, subformula = parse_probability_formula(formula)
 
     # Get states satisfying subformula
     subformula_states = check_ctl_formula(scgs, subformula)
 
-    # Compute reachability probabilities
-    return pre_image_prob_exist(scgs, subformula_states, float(threshold), comparison)
+    # Compute reachability probabilities for all states
+    probabilities = compute_reachability_probabilities(scgs, subformula_states)
+
+    # Filter states by threshold comparison
+    satisfying_states = set()
+    threshold_value = float(threshold)
+
+    for state_idx, value in probabilities.items():
+        if comparison == '>=' and value >= threshold_value:
+            satisfying_states.add(state_idx)
+        elif comparison == '<=' and value <= threshold_value:
+            satisfying_states.add(state_idx)
+        elif comparison == '>' and value > threshold_value:
+            satisfying_states.add(state_idx)
+        elif comparison == '<' and value < threshold_value:
+            satisfying_states.add(state_idx)
+
+    return {
+        'states': satisfying_states,
+        'probabilities': probabilities,
+        'threshold': threshold_value,
+        'comparison': comparison,
+    }
 
 
 def parse_probability_formula(formula):

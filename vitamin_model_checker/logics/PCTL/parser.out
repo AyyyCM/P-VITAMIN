@@ -1,0 +1,1306 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> expression
+Rule 1     expression -> expression AND expression
+Rule 2     expression -> expression OR expression
+Rule 3     expression -> expression IMPLIES expression
+Rule 4     expression -> FORALL expression UNTIL expression
+Rule 5     expression -> EXIST expression UNTIL expression
+Rule 6     expression -> FORALL GLOBALLY expression
+Rule 7     expression -> FORALL NEXT expression
+Rule 8     expression -> FORALL EVENTUALLY expression
+Rule 9     expression -> EXIST GLOBALLY expression
+Rule 10    expression -> EXIST NEXT expression
+Rule 11    expression -> EXIST EVENTUALLY expression
+Rule 12    expression -> EVENTUALLY expression
+Rule 13    expression -> GLOBALLY expression
+Rule 14    expression -> NEXT expression
+Rule 15    expression -> NOT expression
+Rule 16    expression -> LPAREN expression RPAREN
+Rule 17    expression -> PROP
+Rule 18    expression -> PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+Terminals, with rules where they appear
+
+AND                  : 1
+COMPARISON           : 18
+EVENTUALLY           : 8 11 12
+EXIST                : 5 9 10 11
+FORALL               : 4 6 7 8
+GLOBALLY             : 6 9 13
+IMPLIES              : 3
+LPAREN               : 16 18
+NEXT                 : 7 10 14
+NOT                  : 15
+NUMBER               : 18
+OR                   : 2
+PROB                 : 18
+PROP                 : 17
+RPAREN               : 16 18
+UNTIL                : 4 5
+error                : 
+
+Nonterminals, with rules where they appear
+
+expression           : 1 1 2 2 3 3 4 4 5 5 6 7 8 9 10 11 12 13 14 15 16 18 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 1
+
+state 1
+
+    (0) S' -> expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+
+state 2
+
+    (4) expression -> FORALL . expression UNTIL expression
+    (6) expression -> FORALL . GLOBALLY expression
+    (7) expression -> FORALL . NEXT expression
+    (8) expression -> FORALL . EVENTUALLY expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    GLOBALLY        shift and go to state 15
+    NEXT            shift and go to state 16
+    EVENTUALLY      shift and go to state 17
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 14
+
+state 3
+
+    (5) expression -> EXIST . expression UNTIL expression
+    (9) expression -> EXIST . GLOBALLY expression
+    (10) expression -> EXIST . NEXT expression
+    (11) expression -> EXIST . EVENTUALLY expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    GLOBALLY        shift and go to state 19
+    NEXT            shift and go to state 20
+    EVENTUALLY      shift and go to state 21
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 18
+
+state 4
+
+    (13) expression -> GLOBALLY . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 22
+
+state 5
+
+    (14) expression -> NEXT . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 23
+
+state 6
+
+    (12) expression -> EVENTUALLY . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 24
+
+state 7
+
+    (15) expression -> NOT . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 25
+
+state 8
+
+    (16) expression -> LPAREN . expression RPAREN
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 26
+
+state 9
+
+    (17) expression -> PROP .
+
+    AND             reduce using rule 17 (expression -> PROP .)
+    OR              reduce using rule 17 (expression -> PROP .)
+    IMPLIES         reduce using rule 17 (expression -> PROP .)
+    $end            reduce using rule 17 (expression -> PROP .)
+    UNTIL           reduce using rule 17 (expression -> PROP .)
+    RPAREN          reduce using rule 17 (expression -> PROP .)
+
+
+state 10
+
+    (18) expression -> PROB . COMPARISON NUMBER LPAREN expression RPAREN
+
+    COMPARISON      shift and go to state 27
+
+
+state 11
+
+    (1) expression -> expression AND . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 28
+
+state 12
+
+    (2) expression -> expression OR . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 29
+
+state 13
+
+    (3) expression -> expression IMPLIES . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 30
+
+state 14
+
+    (4) expression -> FORALL expression . UNTIL expression
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+    UNTIL           shift and go to state 31
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+
+state 15
+
+    (6) expression -> FORALL GLOBALLY . expression
+    (13) expression -> GLOBALLY . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 32
+
+state 16
+
+    (7) expression -> FORALL NEXT . expression
+    (14) expression -> NEXT . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 33
+
+state 17
+
+    (8) expression -> FORALL EVENTUALLY . expression
+    (12) expression -> EVENTUALLY . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 34
+
+state 18
+
+    (5) expression -> EXIST expression . UNTIL expression
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+    UNTIL           shift and go to state 35
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+
+state 19
+
+    (9) expression -> EXIST GLOBALLY . expression
+    (13) expression -> GLOBALLY . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 36
+
+state 20
+
+    (10) expression -> EXIST NEXT . expression
+    (14) expression -> NEXT . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 37
+
+state 21
+
+    (11) expression -> EXIST EVENTUALLY . expression
+    (12) expression -> EVENTUALLY . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 38
+
+state 22
+
+    (13) expression -> GLOBALLY expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for IMPLIES resolved as shift
+    $end            reduce using rule 13 (expression -> GLOBALLY expression .)
+    UNTIL           reduce using rule 13 (expression -> GLOBALLY expression .)
+    RPAREN          reduce using rule 13 (expression -> GLOBALLY expression .)
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+  ! AND             [ reduce using rule 13 (expression -> GLOBALLY expression .) ]
+  ! OR              [ reduce using rule 13 (expression -> GLOBALLY expression .) ]
+  ! IMPLIES         [ reduce using rule 13 (expression -> GLOBALLY expression .) ]
+
+
+state 23
+
+    (14) expression -> NEXT expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for IMPLIES resolved as shift
+    $end            reduce using rule 14 (expression -> NEXT expression .)
+    UNTIL           reduce using rule 14 (expression -> NEXT expression .)
+    RPAREN          reduce using rule 14 (expression -> NEXT expression .)
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+  ! AND             [ reduce using rule 14 (expression -> NEXT expression .) ]
+  ! OR              [ reduce using rule 14 (expression -> NEXT expression .) ]
+  ! IMPLIES         [ reduce using rule 14 (expression -> NEXT expression .) ]
+
+
+state 24
+
+    (12) expression -> EVENTUALLY expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for IMPLIES resolved as shift
+    $end            reduce using rule 12 (expression -> EVENTUALLY expression .)
+    UNTIL           reduce using rule 12 (expression -> EVENTUALLY expression .)
+    RPAREN          reduce using rule 12 (expression -> EVENTUALLY expression .)
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+  ! AND             [ reduce using rule 12 (expression -> EVENTUALLY expression .) ]
+  ! OR              [ reduce using rule 12 (expression -> EVENTUALLY expression .) ]
+  ! IMPLIES         [ reduce using rule 12 (expression -> EVENTUALLY expression .) ]
+
+
+state 25
+
+    (15) expression -> NOT expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for IMPLIES resolved as shift
+    $end            reduce using rule 15 (expression -> NOT expression .)
+    UNTIL           reduce using rule 15 (expression -> NOT expression .)
+    RPAREN          reduce using rule 15 (expression -> NOT expression .)
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+  ! AND             [ reduce using rule 15 (expression -> NOT expression .) ]
+  ! OR              [ reduce using rule 15 (expression -> NOT expression .) ]
+  ! IMPLIES         [ reduce using rule 15 (expression -> NOT expression .) ]
+
+
+state 26
+
+    (16) expression -> LPAREN expression . RPAREN
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+    RPAREN          shift and go to state 39
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+
+state 27
+
+    (18) expression -> PROB COMPARISON . NUMBER LPAREN expression RPAREN
+
+    NUMBER          shift and go to state 40
+
+
+state 28
+
+    (1) expression -> expression AND expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for IMPLIES resolved as shift
+    $end            reduce using rule 1 (expression -> expression AND expression .)
+    UNTIL           reduce using rule 1 (expression -> expression AND expression .)
+    RPAREN          reduce using rule 1 (expression -> expression AND expression .)
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+  ! AND             [ reduce using rule 1 (expression -> expression AND expression .) ]
+  ! OR              [ reduce using rule 1 (expression -> expression AND expression .) ]
+  ! IMPLIES         [ reduce using rule 1 (expression -> expression AND expression .) ]
+
+
+state 29
+
+    (2) expression -> expression OR expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for IMPLIES resolved as shift
+    $end            reduce using rule 2 (expression -> expression OR expression .)
+    UNTIL           reduce using rule 2 (expression -> expression OR expression .)
+    RPAREN          reduce using rule 2 (expression -> expression OR expression .)
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+  ! AND             [ reduce using rule 2 (expression -> expression OR expression .) ]
+  ! OR              [ reduce using rule 2 (expression -> expression OR expression .) ]
+  ! IMPLIES         [ reduce using rule 2 (expression -> expression OR expression .) ]
+
+
+state 30
+
+    (3) expression -> expression IMPLIES expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for IMPLIES resolved as shift
+    $end            reduce using rule 3 (expression -> expression IMPLIES expression .)
+    UNTIL           reduce using rule 3 (expression -> expression IMPLIES expression .)
+    RPAREN          reduce using rule 3 (expression -> expression IMPLIES expression .)
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+  ! AND             [ reduce using rule 3 (expression -> expression IMPLIES expression .) ]
+  ! OR              [ reduce using rule 3 (expression -> expression IMPLIES expression .) ]
+  ! IMPLIES         [ reduce using rule 3 (expression -> expression IMPLIES expression .) ]
+
+
+state 31
+
+    (4) expression -> FORALL expression UNTIL . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 41
+
+state 32
+
+    (6) expression -> FORALL GLOBALLY expression .
+    (13) expression -> GLOBALLY expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+  ! reduce/reduce conflict for UNTIL resolved using rule 6 (expression -> FORALL GLOBALLY expression .)
+  ! reduce/reduce conflict for AND resolved using rule 6 (expression -> FORALL GLOBALLY expression .)
+  ! reduce/reduce conflict for OR resolved using rule 6 (expression -> FORALL GLOBALLY expression .)
+  ! reduce/reduce conflict for IMPLIES resolved using rule 6 (expression -> FORALL GLOBALLY expression .)
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for IMPLIES resolved as shift
+    $end            reduce using rule 6 (expression -> FORALL GLOBALLY expression .)
+    UNTIL           reduce using rule 6 (expression -> FORALL GLOBALLY expression .)
+    RPAREN          reduce using rule 6 (expression -> FORALL GLOBALLY expression .)
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+  ! AND             [ reduce using rule 6 (expression -> FORALL GLOBALLY expression .) ]
+  ! OR              [ reduce using rule 6 (expression -> FORALL GLOBALLY expression .) ]
+  ! IMPLIES         [ reduce using rule 6 (expression -> FORALL GLOBALLY expression .) ]
+  ! UNTIL           [ reduce using rule 13 (expression -> GLOBALLY expression .) ]
+  ! AND             [ reduce using rule 13 (expression -> GLOBALLY expression .) ]
+  ! OR              [ reduce using rule 13 (expression -> GLOBALLY expression .) ]
+  ! IMPLIES         [ reduce using rule 13 (expression -> GLOBALLY expression .) ]
+
+
+state 33
+
+    (7) expression -> FORALL NEXT expression .
+    (14) expression -> NEXT expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+  ! reduce/reduce conflict for UNTIL resolved using rule 7 (expression -> FORALL NEXT expression .)
+  ! reduce/reduce conflict for AND resolved using rule 7 (expression -> FORALL NEXT expression .)
+  ! reduce/reduce conflict for OR resolved using rule 7 (expression -> FORALL NEXT expression .)
+  ! reduce/reduce conflict for IMPLIES resolved using rule 7 (expression -> FORALL NEXT expression .)
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for IMPLIES resolved as shift
+    $end            reduce using rule 7 (expression -> FORALL NEXT expression .)
+    UNTIL           reduce using rule 7 (expression -> FORALL NEXT expression .)
+    RPAREN          reduce using rule 7 (expression -> FORALL NEXT expression .)
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+  ! AND             [ reduce using rule 7 (expression -> FORALL NEXT expression .) ]
+  ! OR              [ reduce using rule 7 (expression -> FORALL NEXT expression .) ]
+  ! IMPLIES         [ reduce using rule 7 (expression -> FORALL NEXT expression .) ]
+  ! UNTIL           [ reduce using rule 14 (expression -> NEXT expression .) ]
+  ! AND             [ reduce using rule 14 (expression -> NEXT expression .) ]
+  ! OR              [ reduce using rule 14 (expression -> NEXT expression .) ]
+  ! IMPLIES         [ reduce using rule 14 (expression -> NEXT expression .) ]
+
+
+state 34
+
+    (8) expression -> FORALL EVENTUALLY expression .
+    (12) expression -> EVENTUALLY expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+  ! reduce/reduce conflict for UNTIL resolved using rule 8 (expression -> FORALL EVENTUALLY expression .)
+  ! reduce/reduce conflict for AND resolved using rule 8 (expression -> FORALL EVENTUALLY expression .)
+  ! reduce/reduce conflict for OR resolved using rule 8 (expression -> FORALL EVENTUALLY expression .)
+  ! reduce/reduce conflict for IMPLIES resolved using rule 8 (expression -> FORALL EVENTUALLY expression .)
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for IMPLIES resolved as shift
+    $end            reduce using rule 8 (expression -> FORALL EVENTUALLY expression .)
+    UNTIL           reduce using rule 8 (expression -> FORALL EVENTUALLY expression .)
+    RPAREN          reduce using rule 8 (expression -> FORALL EVENTUALLY expression .)
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+  ! AND             [ reduce using rule 8 (expression -> FORALL EVENTUALLY expression .) ]
+  ! OR              [ reduce using rule 8 (expression -> FORALL EVENTUALLY expression .) ]
+  ! IMPLIES         [ reduce using rule 8 (expression -> FORALL EVENTUALLY expression .) ]
+  ! UNTIL           [ reduce using rule 12 (expression -> EVENTUALLY expression .) ]
+  ! AND             [ reduce using rule 12 (expression -> EVENTUALLY expression .) ]
+  ! OR              [ reduce using rule 12 (expression -> EVENTUALLY expression .) ]
+  ! IMPLIES         [ reduce using rule 12 (expression -> EVENTUALLY expression .) ]
+
+
+state 35
+
+    (5) expression -> EXIST expression UNTIL . expression
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 42
+
+state 36
+
+    (9) expression -> EXIST GLOBALLY expression .
+    (13) expression -> GLOBALLY expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+  ! reduce/reduce conflict for UNTIL resolved using rule 9 (expression -> EXIST GLOBALLY expression .)
+  ! reduce/reduce conflict for AND resolved using rule 9 (expression -> EXIST GLOBALLY expression .)
+  ! reduce/reduce conflict for OR resolved using rule 9 (expression -> EXIST GLOBALLY expression .)
+  ! reduce/reduce conflict for IMPLIES resolved using rule 9 (expression -> EXIST GLOBALLY expression .)
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for IMPLIES resolved as shift
+    $end            reduce using rule 9 (expression -> EXIST GLOBALLY expression .)
+    UNTIL           reduce using rule 9 (expression -> EXIST GLOBALLY expression .)
+    RPAREN          reduce using rule 9 (expression -> EXIST GLOBALLY expression .)
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+  ! AND             [ reduce using rule 9 (expression -> EXIST GLOBALLY expression .) ]
+  ! OR              [ reduce using rule 9 (expression -> EXIST GLOBALLY expression .) ]
+  ! IMPLIES         [ reduce using rule 9 (expression -> EXIST GLOBALLY expression .) ]
+  ! UNTIL           [ reduce using rule 13 (expression -> GLOBALLY expression .) ]
+  ! AND             [ reduce using rule 13 (expression -> GLOBALLY expression .) ]
+  ! OR              [ reduce using rule 13 (expression -> GLOBALLY expression .) ]
+  ! IMPLIES         [ reduce using rule 13 (expression -> GLOBALLY expression .) ]
+
+
+state 37
+
+    (10) expression -> EXIST NEXT expression .
+    (14) expression -> NEXT expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+  ! reduce/reduce conflict for UNTIL resolved using rule 10 (expression -> EXIST NEXT expression .)
+  ! reduce/reduce conflict for AND resolved using rule 10 (expression -> EXIST NEXT expression .)
+  ! reduce/reduce conflict for OR resolved using rule 10 (expression -> EXIST NEXT expression .)
+  ! reduce/reduce conflict for IMPLIES resolved using rule 10 (expression -> EXIST NEXT expression .)
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for IMPLIES resolved as shift
+    $end            reduce using rule 10 (expression -> EXIST NEXT expression .)
+    UNTIL           reduce using rule 10 (expression -> EXIST NEXT expression .)
+    RPAREN          reduce using rule 10 (expression -> EXIST NEXT expression .)
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+  ! AND             [ reduce using rule 10 (expression -> EXIST NEXT expression .) ]
+  ! OR              [ reduce using rule 10 (expression -> EXIST NEXT expression .) ]
+  ! IMPLIES         [ reduce using rule 10 (expression -> EXIST NEXT expression .) ]
+  ! UNTIL           [ reduce using rule 14 (expression -> NEXT expression .) ]
+  ! AND             [ reduce using rule 14 (expression -> NEXT expression .) ]
+  ! OR              [ reduce using rule 14 (expression -> NEXT expression .) ]
+  ! IMPLIES         [ reduce using rule 14 (expression -> NEXT expression .) ]
+
+
+state 38
+
+    (11) expression -> EXIST EVENTUALLY expression .
+    (12) expression -> EVENTUALLY expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+  ! reduce/reduce conflict for UNTIL resolved using rule 11 (expression -> EXIST EVENTUALLY expression .)
+  ! reduce/reduce conflict for AND resolved using rule 11 (expression -> EXIST EVENTUALLY expression .)
+  ! reduce/reduce conflict for OR resolved using rule 11 (expression -> EXIST EVENTUALLY expression .)
+  ! reduce/reduce conflict for IMPLIES resolved using rule 11 (expression -> EXIST EVENTUALLY expression .)
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for IMPLIES resolved as shift
+    $end            reduce using rule 11 (expression -> EXIST EVENTUALLY expression .)
+    UNTIL           reduce using rule 11 (expression -> EXIST EVENTUALLY expression .)
+    RPAREN          reduce using rule 11 (expression -> EXIST EVENTUALLY expression .)
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+  ! AND             [ reduce using rule 11 (expression -> EXIST EVENTUALLY expression .) ]
+  ! OR              [ reduce using rule 11 (expression -> EXIST EVENTUALLY expression .) ]
+  ! IMPLIES         [ reduce using rule 11 (expression -> EXIST EVENTUALLY expression .) ]
+  ! UNTIL           [ reduce using rule 12 (expression -> EVENTUALLY expression .) ]
+  ! AND             [ reduce using rule 12 (expression -> EVENTUALLY expression .) ]
+  ! OR              [ reduce using rule 12 (expression -> EVENTUALLY expression .) ]
+  ! IMPLIES         [ reduce using rule 12 (expression -> EVENTUALLY expression .) ]
+
+
+state 39
+
+    (16) expression -> LPAREN expression RPAREN .
+
+    AND             reduce using rule 16 (expression -> LPAREN expression RPAREN .)
+    OR              reduce using rule 16 (expression -> LPAREN expression RPAREN .)
+    IMPLIES         reduce using rule 16 (expression -> LPAREN expression RPAREN .)
+    $end            reduce using rule 16 (expression -> LPAREN expression RPAREN .)
+    UNTIL           reduce using rule 16 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 16 (expression -> LPAREN expression RPAREN .)
+
+
+state 40
+
+    (18) expression -> PROB COMPARISON NUMBER . LPAREN expression RPAREN
+
+    LPAREN          shift and go to state 43
+
+
+state 41
+
+    (4) expression -> FORALL expression UNTIL expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for IMPLIES resolved as shift
+    $end            reduce using rule 4 (expression -> FORALL expression UNTIL expression .)
+    UNTIL           reduce using rule 4 (expression -> FORALL expression UNTIL expression .)
+    RPAREN          reduce using rule 4 (expression -> FORALL expression UNTIL expression .)
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+  ! AND             [ reduce using rule 4 (expression -> FORALL expression UNTIL expression .) ]
+  ! OR              [ reduce using rule 4 (expression -> FORALL expression UNTIL expression .) ]
+  ! IMPLIES         [ reduce using rule 4 (expression -> FORALL expression UNTIL expression .) ]
+
+
+state 42
+
+    (5) expression -> EXIST expression UNTIL expression .
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for IMPLIES resolved as shift
+    $end            reduce using rule 5 (expression -> EXIST expression UNTIL expression .)
+    UNTIL           reduce using rule 5 (expression -> EXIST expression UNTIL expression .)
+    RPAREN          reduce using rule 5 (expression -> EXIST expression UNTIL expression .)
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+  ! AND             [ reduce using rule 5 (expression -> EXIST expression UNTIL expression .) ]
+  ! OR              [ reduce using rule 5 (expression -> EXIST expression UNTIL expression .) ]
+  ! IMPLIES         [ reduce using rule 5 (expression -> EXIST expression UNTIL expression .) ]
+
+
+state 43
+
+    (18) expression -> PROB COMPARISON NUMBER LPAREN . expression RPAREN
+    (1) expression -> . expression AND expression
+    (2) expression -> . expression OR expression
+    (3) expression -> . expression IMPLIES expression
+    (4) expression -> . FORALL expression UNTIL expression
+    (5) expression -> . EXIST expression UNTIL expression
+    (6) expression -> . FORALL GLOBALLY expression
+    (7) expression -> . FORALL NEXT expression
+    (8) expression -> . FORALL EVENTUALLY expression
+    (9) expression -> . EXIST GLOBALLY expression
+    (10) expression -> . EXIST NEXT expression
+    (11) expression -> . EXIST EVENTUALLY expression
+    (12) expression -> . EVENTUALLY expression
+    (13) expression -> . GLOBALLY expression
+    (14) expression -> . NEXT expression
+    (15) expression -> . NOT expression
+    (16) expression -> . LPAREN expression RPAREN
+    (17) expression -> . PROP
+    (18) expression -> . PROB COMPARISON NUMBER LPAREN expression RPAREN
+
+    FORALL          shift and go to state 2
+    EXIST           shift and go to state 3
+    EVENTUALLY      shift and go to state 6
+    GLOBALLY        shift and go to state 4
+    NEXT            shift and go to state 5
+    NOT             shift and go to state 7
+    LPAREN          shift and go to state 8
+    PROP            shift and go to state 9
+    PROB            shift and go to state 10
+
+    expression                     shift and go to state 44
+
+state 44
+
+    (18) expression -> PROB COMPARISON NUMBER LPAREN expression . RPAREN
+    (1) expression -> expression . AND expression
+    (2) expression -> expression . OR expression
+    (3) expression -> expression . IMPLIES expression
+
+    RPAREN          shift and go to state 45
+    AND             shift and go to state 11
+    OR              shift and go to state 12
+    IMPLIES         shift and go to state 13
+
+
+state 45
+
+    (18) expression -> PROB COMPARISON NUMBER LPAREN expression RPAREN .
+
+    AND             reduce using rule 18 (expression -> PROB COMPARISON NUMBER LPAREN expression RPAREN .)
+    OR              reduce using rule 18 (expression -> PROB COMPARISON NUMBER LPAREN expression RPAREN .)
+    IMPLIES         reduce using rule 18 (expression -> PROB COMPARISON NUMBER LPAREN expression RPAREN .)
+    $end            reduce using rule 18 (expression -> PROB COMPARISON NUMBER LPAREN expression RPAREN .)
+    UNTIL           reduce using rule 18 (expression -> PROB COMPARISON NUMBER LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 18 (expression -> PROB COMPARISON NUMBER LPAREN expression RPAREN .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for AND in state 22 resolved as shift
+WARNING: shift/reduce conflict for OR in state 22 resolved as shift
+WARNING: shift/reduce conflict for IMPLIES in state 22 resolved as shift
+WARNING: shift/reduce conflict for AND in state 23 resolved as shift
+WARNING: shift/reduce conflict for OR in state 23 resolved as shift
+WARNING: shift/reduce conflict for IMPLIES in state 23 resolved as shift
+WARNING: shift/reduce conflict for AND in state 24 resolved as shift
+WARNING: shift/reduce conflict for OR in state 24 resolved as shift
+WARNING: shift/reduce conflict for IMPLIES in state 24 resolved as shift
+WARNING: shift/reduce conflict for AND in state 25 resolved as shift
+WARNING: shift/reduce conflict for OR in state 25 resolved as shift
+WARNING: shift/reduce conflict for IMPLIES in state 25 resolved as shift
+WARNING: shift/reduce conflict for AND in state 28 resolved as shift
+WARNING: shift/reduce conflict for OR in state 28 resolved as shift
+WARNING: shift/reduce conflict for IMPLIES in state 28 resolved as shift
+WARNING: shift/reduce conflict for AND in state 29 resolved as shift
+WARNING: shift/reduce conflict for OR in state 29 resolved as shift
+WARNING: shift/reduce conflict for IMPLIES in state 29 resolved as shift
+WARNING: shift/reduce conflict for AND in state 30 resolved as shift
+WARNING: shift/reduce conflict for OR in state 30 resolved as shift
+WARNING: shift/reduce conflict for IMPLIES in state 30 resolved as shift
+WARNING: shift/reduce conflict for AND in state 32 resolved as shift
+WARNING: shift/reduce conflict for OR in state 32 resolved as shift
+WARNING: shift/reduce conflict for IMPLIES in state 32 resolved as shift
+WARNING: shift/reduce conflict for AND in state 33 resolved as shift
+WARNING: shift/reduce conflict for OR in state 33 resolved as shift
+WARNING: shift/reduce conflict for IMPLIES in state 33 resolved as shift
+WARNING: shift/reduce conflict for AND in state 34 resolved as shift
+WARNING: shift/reduce conflict for OR in state 34 resolved as shift
+WARNING: shift/reduce conflict for IMPLIES in state 34 resolved as shift
+WARNING: shift/reduce conflict for AND in state 36 resolved as shift
+WARNING: shift/reduce conflict for OR in state 36 resolved as shift
+WARNING: shift/reduce conflict for IMPLIES in state 36 resolved as shift
+WARNING: shift/reduce conflict for AND in state 37 resolved as shift
+WARNING: shift/reduce conflict for OR in state 37 resolved as shift
+WARNING: shift/reduce conflict for IMPLIES in state 37 resolved as shift
+WARNING: shift/reduce conflict for AND in state 38 resolved as shift
+WARNING: shift/reduce conflict for OR in state 38 resolved as shift
+WARNING: shift/reduce conflict for IMPLIES in state 38 resolved as shift
+WARNING: shift/reduce conflict for AND in state 41 resolved as shift
+WARNING: shift/reduce conflict for OR in state 41 resolved as shift
+WARNING: shift/reduce conflict for IMPLIES in state 41 resolved as shift
+WARNING: shift/reduce conflict for AND in state 42 resolved as shift
+WARNING: shift/reduce conflict for OR in state 42 resolved as shift
+WARNING: shift/reduce conflict for IMPLIES in state 42 resolved as shift
+WARNING: reduce/reduce conflict in state 32 resolved using rule (expression -> FORALL GLOBALLY expression)
+WARNING: rejected rule (expression -> GLOBALLY expression) in state 32
+WARNING: reduce/reduce conflict in state 33 resolved using rule (expression -> FORALL NEXT expression)
+WARNING: rejected rule (expression -> NEXT expression) in state 33
+WARNING: reduce/reduce conflict in state 34 resolved using rule (expression -> FORALL EVENTUALLY expression)
+WARNING: rejected rule (expression -> EVENTUALLY expression) in state 34
+WARNING: reduce/reduce conflict in state 36 resolved using rule (expression -> EXIST GLOBALLY expression)
+WARNING: rejected rule (expression -> GLOBALLY expression) in state 36
+WARNING: reduce/reduce conflict in state 37 resolved using rule (expression -> EXIST NEXT expression)
+WARNING: rejected rule (expression -> NEXT expression) in state 37
+WARNING: reduce/reduce conflict in state 38 resolved using rule (expression -> EXIST EVENTUALLY expression)
+WARNING: rejected rule (expression -> EVENTUALLY expression) in state 38

@@ -28,7 +28,7 @@ t_RPAREN = r'\)'
 t_AND = r'&&|\&|and'
 t_OR = r'\|\||\||or'
 t_NOT = r'!|not'
-t_IMPLIES = r'->|>|implies'
+t_IMPLIES = r'->|implies'
 t_PROP = r'[a-z]+'
 t_UNTIL = r'U|until'
 t_GLOBALLY = r'G|globally|always'
@@ -40,6 +40,7 @@ t_EXIST = r'E|exist'
 t_PROB = r'P'
 t_COMPARISON = r'<=|>=|<|>|=|!='
 t_NUMBER = r'\d+\.?\d*'  # digit + optional . + infinate and none digits
+t_ignore = ' \t\r\n'
 
 # Token error handling
 
@@ -76,6 +77,13 @@ def p_expression_unary(p):
     p[0] = (p[1] + p[2], p[3])
 
 
+def p_expression_pctl_path_unary(p):
+    '''expression : EVENTUALLY expression
+                  | GLOBALLY expression
+                  | NEXT expression'''
+    p[0] = (p[1], p[2])
+
+
 def p_expression_not(p):
     '''expression : NOT expression'''
     p[0] = (p[1], p[2])
@@ -107,7 +115,9 @@ def p_expression_probability(p):
 
 
 def p_error(p):
-    pass
+    if p is None:
+        raise SyntaxError("Unexpected end of input while parsing PCTL formula")
+    raise SyntaxError(f"Syntax error at token {p.type!r} with value {p.value!r}")
 
 
 # lexer and parser
@@ -124,7 +134,6 @@ def get_lexer():
 def do_parsingPCTL(formula):
     try:
         result = parser.parse(formula)
-        print(result)
         return result
     except SyntaxError:  # if parser fails
         return None
